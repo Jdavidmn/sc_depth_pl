@@ -1,0 +1,34 @@
+import cv2
+
+def resize(image, width=None, height=None, inter=cv2.INTER_AREA):
+
+    # Extraemos las dimensiones originales.
+    (original_height, original_width) = image.shape[:2]
+
+    # Si no se especifica al menos uno de los parámetros, no tenemos nada que hacer aparte de retornar.
+    if width is None and height is None:
+        return image
+
+    # Si el nuevo ancho es vacío (*width*), calcularemos la relación de aspecto con base a la nueva altura (*height*)
+    if width is None:
+        # Proporción para mantener la relación de aspecto con base a la nueva altura.
+        ratio = height / float(original_height)
+
+        # Nueva anchura
+        width = int(original_width * ratio)
+    else:
+        # Proporción para mantener la relación de aspecto con base a la nueva anchura.
+        ratio = width / float(original_width)
+
+        # Nueva altura
+        height = int(original_height * ratio)
+
+    # El nuevo tamaño de la imagen no será más que un par compuesta por la nueva anchura y la nueva altura.
+    new_size = (width, height)
+
+    # Usamos la función cv2.resize() para llevar a cabo el cambio de tamaño de la imagen; finalmente retornamos el
+    # resultado.
+    return cv2.resize(image, new_size, interpolation=inter)
+
+
+
